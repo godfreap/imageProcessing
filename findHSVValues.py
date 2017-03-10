@@ -11,6 +11,7 @@ cap = cv2.VideoCapture(vid)
 # cap = cv2.VideoCapture(0)
 
 cv2.namedWindow('HSVColorBars')
+cv2.namedWindow('trackbars')
 
 # single image debug
 # img = '/home/godfreap/Desktop/Scripts/LeftLower_Cropped.png'
@@ -30,12 +31,18 @@ sl = 'L-Sat'
 vh = 'H-Val'
 vl = 'L-Val'
 wnd = 'HSVColorBars'
-cv2.createTrackbar(hl, wnd, 0, 179, emptyCallback)
-cv2.createTrackbar(hh, wnd, 0, 179, emptyCallback)
-cv2.createTrackbar(sl, wnd, 0, 255, emptyCallback)
-cv2.createTrackbar(sh, wnd, 0, 255, emptyCallback)
-cv2.createTrackbar(vl, wnd, 0, 255, emptyCallback)
-cv2.createTrackbar(vh, wnd, 0, 255, emptyCallback)
+trk = 'trackbars'
+cv2.createTrackbar(hl, trk, 0, 179, emptyCallback)
+cv2.createTrackbar(hh, trk, 0, 179, emptyCallback)
+cv2.createTrackbar(sl, trk, 0, 255, emptyCallback)
+cv2.createTrackbar(sh, trk, 0, 255, emptyCallback)
+cv2.createTrackbar(vl, trk, 0, 255, emptyCallback)
+cv2.createTrackbar(vh, trk, 0, 255, emptyCallback)
+
+# set trackbar defaults for 'high' to max so image doesn't start blacked out
+cv2.setTrackbarPos(hh,trk, 179)
+cv2.setTrackbarPos(sh, trk, 255)
+cv2.setTrackbarPos(vh, trk, 255)
 
 while(1):
 	# read the video, reset if last frame
@@ -50,12 +57,12 @@ while(1):
 	frame = cv2.GaussianBlur(frame, (5, 5), 0)
 	hsvimg = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 	# get values from the trackbar
-	hul = cv2.getTrackbarPos(hl, wnd)
-	huh = cv2.getTrackbarPos(hh, wnd)
-	sal = cv2.getTrackbarPos(sl, wnd)
-	sah = cv2.getTrackbarPos(sh, wnd)
-	val = cv2.getTrackbarPos(vl, wnd)
-	vah = cv2.getTrackbarPos(vh, wnd)
+	hul = cv2.getTrackbarPos(hl, trk)
+	huh = cv2.getTrackbarPos(hh, trk)
+	sal = cv2.getTrackbarPos(sl, trk)
+	sah = cv2.getTrackbarPos(sh, trk)
+	val = cv2.getTrackbarPos(vl, trk)
+	vah = cv2.getTrackbarPos(vh, trk)
 
 	hsvlow = np.array([hul, sal, val])
 	hsvhigh = np.array([huh, sah, vah])
